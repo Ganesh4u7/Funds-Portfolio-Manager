@@ -1,0 +1,181 @@
+
+<div class="text-center">
+    <h1>FUNDS</h1>
+</div>
+<div class=" p-5">
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-right">
+        <button class=" btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add New</button>
+        <button type="button" name="button" class="btn btn-success ml-1" (click)="onRefresh()">Refresh</button>
+    </div>
+</div>
+<div class="container-fluid mt-2">
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover" >
+    <thead>
+      <tr>
+        <th>S No</th>
+        <th>Fund name</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>URL</th>
+        <th>Stocks</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fund of funds;let i=index;">
+        <td>{{i+1}}</td>
+        <td>{{fund.name}}</td>
+        <td>{{fund.category}}</td>
+        <td>{{fund.value}}</td>
+        <td><a (click)="goToLink(fund.mcUrl)" style="cursor:pointer; color:blue;">LINK</a></td>
+
+        <td><button  class="btn btn-success" data-toggle="modal" data-target="#exampleModal2" (click)="onGetFundHolding(i)">{{fund.stocks}}</button></td>
+        <!-- <td>{{fund.stocks}}</td> -->
+       <td>
+        <button class="btn btn-danger"  (click)="onDelete(i)">Delete</button>
+        <button class="btn btn-primary ml-1" data-toggle="modal" data-target="#exampleModal1" (click)="onEditNo(i)">Edit</button>
+        <!-- <button class="btn btn-primary ml-1" data-toggle="modal" data-target="#exampleModal2" (click)="onGetFundHolding(i)">View Holding</button> -->
+      </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Fund</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addFundForm" (ngSubmit)="onAddFund()">
+          <div class="form-group">
+              <input type="text" id="name" class="form-control input-lg" placeholder="Fund Name"
+                     formControlName="name"
+                     required
+              >
+          </div>
+          <div class="form-group">
+            <input type="text" id="category" class="form-control input-lg" placeholder="Category"
+                   formControlName="category"
+                   required
+            >
+        </div>
+            <div class="form-group">
+              <input type="text" id="amount" class="form-control input-lg" placeholder="Amount"
+                     formControlName="value"
+                     required
+              >
+          </div>
+          <div class="form-group">
+            <input type="text" id="url" class="form-control input-lg" placeholder="Url"
+                   formControlName="mcUrl"
+                   required
+            >
+        </div>
+
+        <div class="form-group text-center" >
+            <button class="btn btn-success" [disabled]="!addFundForm.valid" data-dismiss="modal" (click)="onAddFund()">Add Fund</button>
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Edit Fund</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editFundForm" (ngSubmit)="onEditFund()" *ngIf="editNo != null">
+          <div class="form-group">
+              <input type="text" id="name" class="form-control input-lg" placeholder="Fund Name"
+                     formControlName="name" [ngModel]="funds[editNo].name" disabled
+                     required
+              >
+          </div>
+            <div class="form-group">
+              <input type="text" id="amount" class="form-control input-lg" placeholder="Amount"
+                     formControlName="value" [ngModel]="funds[editNo].value"
+                     required
+              >
+         </div>
+         <div class="form-group">
+           <input type="text" id="category" class="form-control input-lg" placeholder="Category"
+                  formControlName="category" [ngModel]="funds[editNo].category"
+                  required
+           >
+       </div>
+         <div class="form-group">
+          <input type="text" id="url" class="form-control input-lg" placeholder="Url"
+                 formControlName="mcUrl"  [ngModel]="funds[editNo].mcUrl"
+                 required
+          >
+      </div>
+
+        <div class="form-group text-center" >
+            <button class="btn btn-success"  data-dismiss="modal" (click)="onEditFund()">Edit Fund</button>
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel2">Fund Holding</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Sector</th>
+                <th>Asset Share</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let fund of fundHolding;let i =index;">
+                <td>{{fund.company}}</td>
+                <td>{{fund.sector}}</td>
+                <td>{{fund.assetShare}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+    </div>
+    </div>
+  </div>
+</div>

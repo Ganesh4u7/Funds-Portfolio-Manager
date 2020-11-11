@@ -1,0 +1,66 @@
+
+<div class="text-center">
+    <h1>PORTFOLIO</h1>
+</div>
+<div class="container-fluid p-5"><table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+  <thead >
+    <tr>
+      <th>Company</th>
+      <th>Sector</th>
+      <th>Value</th>
+      <th>Percentage</th>
+      <th>Funds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let fund of funds;let i=index;">
+      <td>{{fund.company}}</td>
+      <td>{{fund.sector}}</td>
+      <td>{{fund.value}}</td>
+      <td>{{fund.percentage}}</td>
+      <td><button  class="btn btn-success" data-toggle="modal" data-target="#exampleModal" (click)="onFundNames(i)">{{fund.funds}}</button></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+
+                    <th>Fund Name</th>
+                    <th>Value</th>
+                    <th>Percentage</th>
+                    <th>Asset Share</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let fund of fundNames;let i =index;">
+                    <td>{{fund.fundName}}</td>
+                    <td>{{fund.value}}</td>
+                    <td>{{fund.percentage}}</td>
+                    <td>{{fund.assetShare}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
