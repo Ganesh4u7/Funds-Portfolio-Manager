@@ -1,4 +1,4 @@
-import { Component, OnInit,OnDestroy } from '@angular/core';
+import { Component, OnInit,OnDestroy, AfterViewInit } from '@angular/core';
 import {Subject} from 'rxjs';
 import { HttpService } from '../http.service';
 
@@ -7,7 +7,7 @@ import { HttpService } from '../http.service';
   templateUrl: './my-funds.component.html',
   styleUrls: ['./my-funds.component.css']
 })
-export class MyFundsComponent implements OnDestroy,OnInit {
+export class MyFundsComponent implements OnDestroy,OnInit,AfterViewInit {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -26,7 +26,7 @@ export class MyFundsComponent implements OnDestroy,OnInit {
     this.httpService.onGetPortfolio().subscribe((response)=>{
       if(response){
         this.funds = response;
-        this.dtTrigger.next();
+        // this.dtTrigger.next();
       }
     },
     (error)=>{
@@ -38,6 +38,7 @@ export class MyFundsComponent implements OnDestroy,OnInit {
     //   {company:"hdfc",asset:20,share:15}
     // ]
   }
+  ngAfterViewInit(): void {this.dtTrigger.next();}
   ngOnDestroy(): void{
     this.dtTrigger.unsubscribe();
   }

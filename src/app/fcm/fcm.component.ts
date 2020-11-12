@@ -1,5 +1,5 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, OnInit,OnDestroy } from '@angular/core';
+import { Component, OnInit,OnDestroy, AfterViewInit } from '@angular/core';
 import {Subject} from 'rxjs';
 import { HttpService } from '../http.service';
 
@@ -8,7 +8,7 @@ import { HttpService } from '../http.service';
   templateUrl: './fcm.component.html',
   styleUrls: ['./fcm.component.css']
 })
-export class FcmComponent implements OnDestroy,OnInit {
+export class FcmComponent implements OnDestroy,OnInit,AfterViewInit {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -27,7 +27,7 @@ export class FcmComponent implements OnDestroy,OnInit {
     this.httpService.onGetFundComparison().subscribe((response)=>{
       if(response){
         this.funds = response;
-        this.dtTrigger.next();
+        // this.dtTrigger.next();
       }
     },
     (error)=>{
@@ -39,6 +39,7 @@ export class FcmComponent implements OnDestroy,OnInit {
     //   {fund1:"hdfc",fund2:"axis",stocks:2,overlap:30}
     // ]
   }
+  ngAfterViewInit(): void {this.dtTrigger.next();}
 
   ngOnDestroy(): void{
     this.dtTrigger.unsubscribe();

@@ -1,4 +1,4 @@
-import { Component, OnDestroy,OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy,OnInit } from '@angular/core';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import {FormControl, FormGroup,NgForm} from '@angular/forms';
 import {Subject} from 'rxjs';
@@ -9,7 +9,7 @@ import { HttpService } from '../http.service';
   templateUrl: './my-portfolio.component.html',
   styleUrls: ['./my-portfolio.component.css']
 })
-export class MyPortfolioComponent implements OnDestroy,OnInit {
+export class MyPortfolioComponent implements OnDestroy,OnInit,AfterViewInit { 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   addFundForm :FormGroup;
@@ -18,6 +18,7 @@ export class MyPortfolioComponent implements OnDestroy,OnInit {
   funds : any;
   fundHolding:any;
   fundUpdateStatus = null;
+  refreshing = false;
 
   constructor( private httpService: HttpService) { }
 
@@ -45,15 +46,16 @@ export class MyPortfolioComponent implements OnDestroy,OnInit {
     this.httpService.onGetFunds().subscribe((response)=>{
       if(response){
         this.funds = response;
-           this.dtTrigger.next();
+          //  this.dtTrigger.next();
       }
     },
     (error)=>{
       console.log(error)
     });
 
-    // this.funds = [{sno:1,name:"blue-chip",category:"something",value:100,mcUrl:"Some Url"},{sno:2,name:"hdfc",category:"someother thing",value:33,mcUrl:"Some other url"}];
+    //  this.funds = [{sno:1,name:"blue-chip",category:"something",value:100,mcUrl:"Some Url"},{sno:2,name:"hdfc",category:"someother thing",value:33,mcUrl:"Some other url"}];
   }
+  ngAfterViewInit(): void {this.dtTrigger.next();}
 
   ngOnDestroy(): void{
     this.dtTrigger.unsubscribe();
@@ -148,11 +150,15 @@ export class MyPortfolioComponent implements OnDestroy,OnInit {
   }
 
   onRefresh(){
+    this.refreshing = true;
     this.httpService.onRefreshPortfolio().subscribe(
       (response) => {
-
+        this.refreshing = false;
       },
-      (error) => console.log(error)
+      (error) => {
+        console.log(error);
+       this.refreshing = false;
+      }
     );
   }
 

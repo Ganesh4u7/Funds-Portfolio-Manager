@@ -1,0 +1,121 @@
+<div class="text-center">
+  <h1>PORTFOLIO COMPARE</h1>
+</div>
+  <div class="container-fluid col-md-4  mt-4">
+    <form [formGroup]="portfolioComapreForm" (ngSubmit)="onPortfolioComare()">
+      <div class="form-group text-center" >
+          <input type="text" id="name" class="form-control input-lg" placeholder="Fund Name"
+                 formControlName="name"
+                 required
+          >
+      </div>
+      <div class="form-group text-center">
+        <input type="text" id="url" class="form-control input-lg" placeholder="URL"
+               formControlName="mcUrl"
+               required
+        >
+    </div>
+
+    <div class="form-group text-center" >
+        <button class="btn btn-success" type="submit" *ngIf="!refreshing" [disabled]="!portfolioComapreForm.valid" >Portfolio Compare</button>
+        <button class="btn btn-success ml-1" type="button" *ngIf="refreshing" disabled>
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          Refreshing...
+        </button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="showTable">
+<div class="text-center">
+  <h2>Similarity : {{similarity}} </h2>
+</div>
+<div class="row">
+<div class="container col-md-12">
+  <div class="text-center">
+    <h3>Holding Difference </h3>
+  </div>
+ <table  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+   <thead>
+     <tr>
+
+       <th>Company</th>
+       <th>Holding</th>
+       <th>Portfolio Holding</th>
+       <th>Portfolio Value</th>
+
+     </tr>
+   </thead>
+   <tbody>
+     <tr *ngFor="let fund of holdingDiff;let i =index;">
+       <td>{{fund.company}}</td>
+       <td>{{fund.holding}}</td>
+       <td>{{fund.portfolioHolding}}</td>
+       <td><button class="btn btn-success" data-toggle="modal" data-target="#exampleModal"  (click)="onSelectHoldingValue(i)">{{fund.portfolioValue}}</button></td>
+     </tr>
+   </tbody>
+ </table>
+</div>
+<div class=" conatiner col-md-12">
+  <div class="text-center">
+    <h3>Mutual Fund Comparisons </h3>
+  </div>
+ <table  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+   <thead>
+     <tr>
+       <th>Fund 1</th>
+       <th>Fund 2</th>
+       <th>Similarity</th>
+       <th>Stocks</th>
+
+     </tr>
+   </thead>
+   <tbody>
+     <tr *ngFor="let fund of mutualFundComparisons;let i =index;">
+       <td>{{fund.fund1}}</td>
+       <td>{{fund.fund2}}</td>
+       <td>{{fund.similarity}}</td>
+       <td>{{fund.stocks}}</td>
+     </tr>
+   </tbody>
+ </table>
+</div>
+
+</div>
+
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+
+                  <th>Funds</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fund of mutualFunds;let i =index;">
+                  <td>{{fund}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+ 

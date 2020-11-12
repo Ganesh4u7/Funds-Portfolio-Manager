@@ -15,7 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { PortfolioCompareComponent } from './portfolio-compare/portfolio-compare.component';
+import { MyPortfolioCompareComponent } from './my-portfolio-compare/my-portfolio-compare.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { PortfolioCompareComponent } from './portfolio-compare/portfolio-compare
     MyPortfolioComponent,
     FcmComponent,
     NavbarComponent,
-    PortfolioCompareComponent
+    MyPortfolioCompareComponent
   ],
   imports: [
     AppRoutingModule,

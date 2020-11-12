@@ -8,8 +8,12 @@
     <div class="col-md-4"></div>
     <div class="col-md-4"></div>
     <div class="col-md-4 text-right">
-        <button class=" btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add New</button>
-        <button type="button" name="button" class="btn btn-success ml-1" (click)="onRefresh()">Refresh</button>
+        <button class=" btn btn-success" data-toggle="modal" data-target="#exampleModal">Add New</button>
+        <button type="button" name="button" class="btn btn-success ml-1" *ngIf="!refreshing" (click)="onRefresh()">Refresh</button>
+        <button class="btn btn-success ml-1" type="button" *ngIf="refreshing" disabled>
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          Refreshing...
+        </button>
     </div>
 </div>
 <div class="container-fluid mt-2">

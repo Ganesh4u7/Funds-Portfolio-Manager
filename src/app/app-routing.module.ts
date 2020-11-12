@@ -4,8 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { FcmComponent } from './fcm/fcm.component';
 import { FundHoldingsComponent } from './fund-holdings/fund-holdings.component';
 import { MyFundsComponent } from './my-funds/my-funds.component';
+import { MyPortfolioCompareComponent } from './my-portfolio-compare/my-portfolio-compare.component';
 import { MyPortfolioComponent } from './my-portfolio/my-portfolio.component';
-import { PortfolioCompareComponent }from './portfolio-compare/portfolio-compare.component';
 
 
 
@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'fund-holding', component: FundHoldingsComponent },
   { path: 'my-funds', component: MyFundsComponent },
   { path: 'fcm', component: FcmComponent},
-  { path: 'portfolioCompare', component:PortfolioCompareComponent}
+  { path: 'portfolioCompare', component:MyPortfolioCompareComponent}
 ];
 
 @NgModule({
